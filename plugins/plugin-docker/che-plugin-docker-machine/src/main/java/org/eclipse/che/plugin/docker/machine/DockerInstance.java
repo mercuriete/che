@@ -15,14 +15,14 @@ import com.google.inject.assistedinject.Assisted;
 import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.model.machine.Command;
 import org.eclipse.che.api.core.model.machine.Machine;
+import org.eclipse.che.api.core.model.machine.MachineSource;
 import org.eclipse.che.api.core.util.LineConsumer;
 import org.eclipse.che.api.core.util.ListLineConsumer;
 import org.eclipse.che.api.machine.server.exception.MachineException;
-import org.eclipse.che.api.machine.server.spi.impl.AbstractInstance;
 import org.eclipse.che.api.machine.server.model.impl.MachineRuntimeInfoImpl;
 import org.eclipse.che.api.machine.server.spi.Instance;
-import org.eclipse.che.api.machine.server.spi.InstanceKey;
 import org.eclipse.che.api.machine.server.spi.InstanceProcess;
+import org.eclipse.che.api.machine.server.spi.impl.AbstractInstance;
 import org.eclipse.che.commons.lang.NameGenerator;
 import org.eclipse.che.plugin.docker.client.DockerConnector;
 import org.eclipse.che.plugin.docker.client.Exec;
@@ -184,22 +184,25 @@ public class DockerInstance extends AbstractInstance {
     }
 
     @Override
-    public InstanceKey saveToSnapshot(String owner) throws MachineException {
+    public MachineSource saveToSnapshot(String owner) throws MachineException {
         try {
             final String repository = generateRepository();
             String comment = format("Suspended at %1$ta %1$tb %1$td %1$tT %1$tZ %1$tY", System.currentTimeMillis());
             if (owner != null) {
                 comment = comment + " by " + owner;
             }
+
+            final String LATEST_TAG = "latest";
+
             // !! We SHOULD NOT pause container before commit because all execs will fail
             // to push image to private registry it should be tagged with registry in repo name
             // https://docs.docker.com/reference/api/docker_remote_api_v1.16/#push-an-image-on-the-registry
-            docker.commit(container, registry + '/' + repository, "latest", comment, owner);
+            docker.commit(container, registry + '/' + repository, LATEST_TAG, comment, owner);
             //TODO fix this workaround. Docker image is not visible after commit when using swarm
             Thread.sleep(2000);
 
             final ProgressLineFormatterImpl progressLineFormatter = new ProgressLineFormatterImpl();
-            String digest = docker.push(repository, "latest", registry, currentProgressStatus -> {
+            String digest = docker.push(repository, LATEST_TAG, registry, currentProgressStatus -> {
                 try {
                     outputConsumer.writeLine(progressLineFormatter.format(currentProgressStatus));
                 } catch (IOException ignored) {
@@ -208,7 +211,7 @@ public class DockerInstance extends AbstractInstance {
 
             docker.removeImage(registry + '/' + repository, false);
 
-            return new DockerInstanceKey(repository, "latest", registry, digest);
+            return new DockerMachineSource(repository).setRegistry(registry).setDigest(digest).setTag(LATEST_TAG);
         } catch (IOException e) {
             throw new MachineException(e);
         } catch (InterruptedException e) {
