@@ -19,8 +19,8 @@ import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.core.UnauthorizedException;
 import org.eclipse.che.api.local.storage.LocalStorage;
 import org.eclipse.che.api.local.storage.LocalStorageFactory;
-import org.eclipse.che.api.user.server.dao.User;
-import org.eclipse.che.api.user.server.dao.UserDao;
+import org.eclipse.che.api.user.server.spi.User;
+import org.eclipse.che.api.user.server.spi.UserDao;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -67,17 +67,17 @@ public class LocalUserDaoImpl implements UserDao {
     }
 
     @Override
-    public String authenticate(String alias, String password) throws UnauthorizedException, ServerException {
+    public String authenticate(String aliasOrName, String password) throws UnauthorizedException, ServerException {
         lock.readLock().lock();
         try {
             User myUser = null;
             for (int i = 0, size = users.size(); i < size && myUser == null; i++) {
-                if (users.get(i).getAliases().contains(alias)) {
+                if (users.get(i).getAliases().contains(aliasOrName)) {
                     myUser = users.get(i);
                 }
             }
             if (myUser == null || !password.equals(myUser.getPassword())) {
-                throw new UnauthorizedException(String.format("Authentication failed for user %s", alias));
+                throw new UnauthorizedException(String.format("Authentication failed for user %s", aliasOrName));
             }
             return myUser.getId();
         } finally {

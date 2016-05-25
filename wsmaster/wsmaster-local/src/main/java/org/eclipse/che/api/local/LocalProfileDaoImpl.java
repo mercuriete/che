@@ -16,8 +16,8 @@ import com.google.common.reflect.TypeToken;
 import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.local.storage.LocalStorage;
 import org.eclipse.che.api.local.storage.LocalStorageFactory;
-import org.eclipse.che.api.user.server.dao.Profile;
-import org.eclipse.che.api.user.server.dao.UserProfileDao;
+import org.eclipse.che.api.user.server.spi.Profile;
+import org.eclipse.che.api.user.server.spi.UserProfileDao;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;

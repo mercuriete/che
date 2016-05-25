@@ -22,28 +22,28 @@ import org.eclipse.che.dto.shared.DTO;
  */
 @DTO
 @Beta
-public interface UserInRoleDescriptor {
+public interface UserInRoleDto {
 
     @ApiModelProperty(value = "Is in Role")
     boolean getIsInRole();
 
     void setIsInRole(boolean value);
 
-    UserInRoleDescriptor withIsInRole(boolean value);
+    UserInRoleDto withIsInRole(boolean value);
 
     @ApiModelProperty(value = "Name of the role")
     String getRoleName();
 
     void setRoleName(String roleName);
 
-    UserInRoleDescriptor withRoleName(String roleName);
+    UserInRoleDto withRoleName(String roleName);
 
     @ApiModelProperty(value = "Scope of the role")
     String getScope();
 
     void setScope(String scope);
 
-    UserInRoleDescriptor withScope(String scope);
+    UserInRoleDto withScope(String scope);
 
 
     @ApiModelProperty(value = "ScopeID of the role")
@@ -51,7 +51,7 @@ public interface UserInRoleDescriptor {
 
     void setScopeId(String scopeId);
 
-    UserInRoleDescriptor withScopeId(String scope);
+    UserInRoleDto withScopeId(String scope);
 
 
 }

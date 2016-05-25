@@ -13,7 +13,7 @@ package org.eclipse.che.ide.api.user;
 import com.google.inject.Inject;
 
 import org.eclipse.che.api.promises.client.Promise;
-import org.eclipse.che.api.user.shared.dto.ProfileDescriptor;
+import org.eclipse.che.api.user.shared.dto.ProfileDto;
 import org.eclipse.che.ide.json.JsonHelper;
 import org.eclipse.che.ide.rest.AsyncRequestCallback;
 import org.eclipse.che.ide.rest.AsyncRequestFactory;
@@ -51,7 +51,7 @@ public class UserProfileServiceClientImpl implements UserProfileServiceClient {
 
     /** {@inheritDoc} */
     @Override
-    public void getCurrentProfile(AsyncRequestCallback<ProfileDescriptor> callback) {
+    public void getCurrentProfile(AsyncRequestCallback<ProfileDto> callback) {
         asyncRequestFactory.createGetRequest(PROFILE)
                            .header(ACCEPT, APPLICATION_JSON)
                            .loader(loaderFactory.newLoader("Retrieving current user's profile..."))
@@ -60,7 +60,7 @@ public class UserProfileServiceClientImpl implements UserProfileServiceClient {
 
     /** {@inheritDoc} */
     @Override
-    public void updateCurrentProfile(@NotNull Map<String, String> updates, AsyncRequestCallback<ProfileDescriptor> callback) {
+    public void updateCurrentProfile(@NotNull Map<String, String> updates, AsyncRequestCallback<ProfileDto> callback) {
         asyncRequestFactory.createPostRequest(PROFILE, null)
                            .header(ACCEPT, APPLICATION_JSON)
                            .header(CONTENT_TYPE, APPLICATION_JSON)
@@ -71,7 +71,7 @@ public class UserProfileServiceClientImpl implements UserProfileServiceClient {
 
     /** {@inheritDoc} */
     @Override
-    public void getProfileById(@NotNull String id, AsyncRequestCallback<ProfileDescriptor> callback) {
+    public void getProfileById(@NotNull String id, AsyncRequestCallback<ProfileDto> callback) {
         String requestUrl = PROFILE + id;
 
         asyncRequestFactory.createGetRequest(requestUrl)
@@ -100,7 +100,7 @@ public class UserProfileServiceClientImpl implements UserProfileServiceClient {
 
     /** {@inheritDoc} */
     @Override
-    public void updateProfile(@NotNull String id, Map<String, String> updates, AsyncRequestCallback<ProfileDescriptor> callback) {
+    public void updateProfile(@NotNull String id, Map<String, String> updates, AsyncRequestCallback<ProfileDto> callback) {
         String requestUrl = PROFILE + id;
 
         asyncRequestFactory.createPostRequest(requestUrl, null)

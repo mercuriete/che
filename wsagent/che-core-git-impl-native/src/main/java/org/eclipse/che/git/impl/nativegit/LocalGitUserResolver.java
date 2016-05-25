@@ -13,7 +13,7 @@ package org.eclipse.che.git.impl.nativegit;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.git.GitUserResolver;
 import org.eclipse.che.api.git.shared.GitUser;
-import org.eclipse.che.api.user.server.dao.PreferenceDao;
+import org.eclipse.che.api.user.server.spi.PreferenceDao;
 import org.eclipse.che.commons.env.EnvironmentContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
