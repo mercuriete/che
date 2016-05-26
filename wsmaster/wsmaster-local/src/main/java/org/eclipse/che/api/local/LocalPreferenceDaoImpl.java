@@ -13,7 +13,6 @@ package org.eclipse.che.api.local;
 
 import com.google.common.reflect.TypeToken;
 
-import org.eclipse.che.api.core.NotFoundException;
 import org.eclipse.che.api.core.ServerException;
 import org.eclipse.che.api.local.storage.LocalStorage;
 import org.eclipse.che.api.local.storage.LocalStorageFactory;
@@ -72,7 +71,7 @@ public class LocalPreferenceDaoImpl implements PreferenceDao {
     }
 
     @Override
-    public void setPreferences(String userId, Map<String, String> prefs) throws ServerException, NotFoundException {
+    public void setPreferences(String userId, Map<String, String> prefs) throws ServerException {
         lock.writeLock().lock();
         try {
             preferences.put(userId, new HashMap<>(prefs));
