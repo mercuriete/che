@@ -15,7 +15,7 @@ import com.google.common.io.Files;
 
 import org.eclipse.che.api.core.util.LineConsumer;
 import org.eclipse.che.api.core.util.LineConsumerFactory;
-import org.eclipse.che.api.user.server.spi.Profile;
+import org.eclipse.che.api.user.server.model.impl.ProfileImpl;
 import org.eclipse.che.api.user.server.spi.ProfileDao;
 import org.eclipse.che.api.vfs.VirtualFileSystem;
 import org.eclipse.che.api.vfs.VirtualFileSystemProvider;
@@ -177,7 +177,7 @@ public class TestUtils {
         profileAttributes.put("email", "che@eclipse.org");
 
         Mockito.when(userProfileDao.getById("codenvy"))
-               .thenReturn(new Profile().withId("codenvy").withUserId("codenvy").withAttributes(profileAttributes));
+               .thenReturn(new ProfileImpl("codenvy", "codenvy", profileAttributes));
     }
 
     /**

@@ -44,5 +44,7 @@ public interface ProfileDto extends Profile {
 
     ProfileDto withLinks(List<Link> links);
 
+    String getEmail();
+
     ProfileDto withEmail(String email);
 }
