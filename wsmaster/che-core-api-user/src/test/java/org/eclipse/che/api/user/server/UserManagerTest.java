@@ -112,31 +112,31 @@ public class UserManagerTest {
 
     @DataProvider(name = "rollback")
     public Object[][] rollbackTestPreActions() throws Exception {
-        return new Object[][] {
+        return new Callable[][] {
 
                 // User creation mocking
-                {((Callable<Void>)() -> {
+                {() -> {
                     doThrow(new ServerException("error"))
                             .when(userDao)
                             .create(any());
                     return null;
-                })},
+                }},
 
                 // Preferences creation mocking
-                {((Callable<Void>)() -> {
+                {() -> {
                     doThrow(new ServerException("error"))
                             .when(preferencesManager)
                             .save(anyString(), any());
                     return null;
-                })},
+                }},
 
                 // Profile creation mocking
-                {((Callable<Void>)() -> {
+                {() -> {
                     doThrow(new ServerException("error"))
                             .when(profileManager)
                             .create(any());
                     return null;
-                })}
+                }}
         };
     }
 }
