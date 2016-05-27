@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.che.ide.api.user;
 
-import org.eclipse.che.api.promises.client.Promise;
 import org.eclipse.che.api.user.shared.dto.ProfileDto;
 import org.eclipse.che.ide.rest.AsyncRequestCallback;
 
@@ -49,24 +48,6 @@ public interface UserProfileServiceClient {
      */
     void getProfileById(@NotNull String id, AsyncRequestCallback<ProfileDto> callback);
 
-    /**
-     * Get user preferences
-     *
-     * @param callback
-     *         which contains some action with user preferences
-     * @deprecated use {@link #getPreferences()}
-     */
-    @Deprecated
-    void getPreferences(AsyncRequestCallback<Map<String, String>> callback);
-
-    /**
-     * Get user preferences
-     *
-     * @return the promise which either uses preferences for some actions or rejects with an error
-     */
-    Promise<Map<String, String>> getPreferences();
-
-    /**
 
     /**
      * Update profile.
@@ -78,24 +59,4 @@ public interface UserProfileServiceClient {
      * @param callback
      */
     void updateProfile(@NotNull String id, Map<String, String> updates, AsyncRequestCallback<ProfileDto> callback);
-
-    /**
-     * Update preferences.
-     *
-     * @param prefsToUpdate
-     *         preferences to update
-     * @param callback
-     *         which contains some action with user preferences
-     * @deprecated use {@link #updatePreferences(Map)}
-     */
-    @Deprecated
-    void updatePreferences(@NotNull Map<String, String> prefsToUpdate, AsyncRequestCallback<Map<String, String>> callback);
-
-    /**
-     * Update preferences.
-     *
-     * @param prefsToUpdate
-     * @return promise which either uses preferences for some actions or rejects with an error
-     */
-    Promise<Map<String, String>> updatePreferences(@NotNull Map<String, String> prefsToUpdate);
 }

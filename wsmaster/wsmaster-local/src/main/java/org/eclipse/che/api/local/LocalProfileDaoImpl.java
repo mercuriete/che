@@ -84,7 +84,7 @@ public class LocalProfileDaoImpl implements ProfileDao {
         try {
             final Profile myProfile = profiles.get(profile.getId());
             if (myProfile == null) {
-                throw new NotFoundException(String.format("Profile not found %s", profile.getId()));
+                throw new NotFoundException(String.format("Profile with id '%s' not found", profile.getId()));
             }
             myProfile.getAttributes().clear();
             myProfile.getAttributes().putAll(profile.getAttributes());
@@ -109,7 +109,7 @@ public class LocalProfileDaoImpl implements ProfileDao {
         try {
             final Profile profile = profiles.get(id);
             if (profile == null) {
-                throw new NotFoundException(String.format("Profile not found %s", id));
+                throw new NotFoundException(String.format("Profile with id '%s' not found", id));
             }
             return new ProfileImpl(profile);
         } finally {
